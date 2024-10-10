@@ -24,3 +24,23 @@ The powershell command that prints battery level contains carriage return (`\r`)
 ## Example usage scenario
 Windows requires hover on the battery icon for certain amount of time to show battery level, which is inconvenient when sharing a charger between multiple devices.  
 ![Screenshot of hover over Windows battery icon](img/windows-battery-level-hover.png)
+
+## Installation
+Run following commands to install the program:
+```bash
+git clone https://github.com/WingTillDie/battery-level-wsl.git
+cd battery-level-wsl/
+chmod u+x battery-level-wsl.bash
+ln -s $(readlink -f battery-level-wsl.bash) ~/.local/bin/my_bin/battery-level-wsl.bash
+```
+
+If installation success, then you can run following command directly:
+```bash
+battery-level-wsl.bash
+```
+
+You might need to modify your ~/.bashrc to make it works:
+```bash
+export MY_BIN="$HOME/.local/bin/my_bin"
+export PATH="$PATH:$MY_BIN"
+```
