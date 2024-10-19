@@ -4,10 +4,10 @@ It refreshes at each second.
 
 ```mermaid
 flowchart TD
-    Start --> For
-    For[Enter Infinite Loop]
+    Start([Start]) --> For
+    For{{Enter Infinite Loop}}
     For --> Battery
-    Battery[Print Battery Level]
+    Battery[/Print Battery Level/]
     Battery --> Sleep
     Sleep --> For
     Sleep[Sleep for 1 second]
@@ -34,34 +34,36 @@ The powershell command that prints battery level contains carriage return (`\r`)
 ### Overview of the Program Flow
 ```mermaid
 flowchart TD
-    Start --> For
-    For[Enter Infinite Loop]
-    For --> assert_cursor_start
-    assert_cursor_start[assert: Cursor is at Start of the Line]
-    assert_cursor_start --> Overwrite
-    Overwrite[Print Updated Battery Level by Overwriting Previous Battery Level]
-    Overwrite --> assert_cursor_end
-    assert_cursor_end[assert: Cursor is at End of the Line]
-    assert_cursor_end --> CR
-    CR[Move Cursor to Start of the Line]
-    CR --> Sleep
+    Start([Start]) --> For
+    For{{Enter Infinite Loop}}
+    subgraph Print[Print Battery Level]
+        assert_cursor_start[assert: Cursor is at Start of the Line]
+        assert_cursor_start --> Overwrite
+        Overwrite[/Print Updated Battery Level by Overwriting Previous Battery Level/]
+        Overwrite --> assert_cursor_end
+        assert_cursor_end[assert: Cursor is at End of the Line]
+        assert_cursor_end --> CR
+        CR[/Move Cursor to Start of the Line/]
+        CR --> Sleep
+        Sleep[Sleep for 1 second]
+    end
+    For --> Print
     Sleep --> For
-    Sleep[Sleep for 1 second]
 ```
 ### Subroutine: Print Battery Level
 ```mermaid
 flowchart TD
-    Battery[Subroutine: Print Battery Level]
+    Battery[[Print Battery Level]]
     Battery --> assert_cursor_start
     assert_cursor_start[assert: Cursor is at Start of the Line]
     assert_cursor_start --> Overwrite
-    Overwrite[Print Updated Battery Level by Overwriting Previous Battery Level]
+    Overwrite[/Print Updated Battery Level by Overwriting Previous Battery Level/]
     Overwrite --> assert_cursor_end
     assert_cursor_end[assert: Cursor is at End of the Line]
     assert_cursor_end --> CR
-    CR[Move Cursor to Start of the Line]
+    CR[/Move Cursor to Start of the Line/]
     CR --> Endsub
-    Endsub[End Subroutine]
+    Endsub([End Subroutine])
 ```
 
 ## Example usage scenario
