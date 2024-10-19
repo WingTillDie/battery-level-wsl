@@ -2,6 +2,17 @@
 Shows battery level in Windows Subsystem for Linux (WSL).  
 It refreshes at each second.  
 
+```mermaid
+flowchart TD
+    Start --> For
+    For[Enter Infinite Loop]
+    For --> Battery
+    Battery[Print Battery Level]
+    Battery --> Sleep
+    Sleep --> For
+    Sleep[Sleep for 1 second]
+```
+
 ## Usage
 ```bash
 bash battery-level-wsl.bash
@@ -20,6 +31,38 @@ The program shows battery level as a number, which has more detail than original
 
 ## Development
 The powershell command that prints battery level contains carriage return (`\r`), so the output overwrites the output of previous second.
+### Overview of the Program Flow
+```mermaid
+flowchart TD
+    Start --> For
+    For[Enter Infinite Loop]
+    For --> assert_cursor_start
+    assert_cursor_start[assert: Cursor is at Start of the Line]
+    assert_cursor_start --> Overwrite
+    Overwrite[Print Updated Battery Level by Overwriting Previous Battery Level]
+    Overwrite --> assert_cursor_end
+    assert_cursor_end[assert: Cursor is at End of the Line]
+    assert_cursor_end --> CR
+    CR[Move Cursor to Start of the Line]
+    CR --> Sleep
+    Sleep --> For
+    Sleep[Sleep for 1 second]
+```
+### Subroutine: Print Battery Level
+```mermaid
+flowchart TD
+    Battery[Subroutine: Print Battery Level]
+    Battery --> assert_cursor_start
+    assert_cursor_start[assert: Cursor is at Start of the Line]
+    assert_cursor_start --> Overwrite
+    Overwrite[Print Updated Battery Level by Overwriting Previous Battery Level]
+    Overwrite --> assert_cursor_end
+    assert_cursor_end[assert: Cursor is at End of the Line]
+    assert_cursor_end --> CR
+    CR[Move Cursor to Start of the Line]
+    CR --> Endsub
+    Endsub[End Subroutine]
+```
 
 ## Example usage scenario
 Windows requires hover on the battery icon for certain amount of time to show battery level, which is inconvenient when sharing a charger between multiple devices.  
